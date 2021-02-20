@@ -1,0 +1,14 @@
+This project provides steps and files for setting up access to the SDRAM on the DE1-SOC via FPGA2SDRAM bridge via address span extender in FPGA. Linux driver and user space application is provided to set up access to the buffer directly from the processor using cache coherent memory.
+
+|- notes  - steps to rebuild larger executables from source in case you need to tinker/make changes
+|-sd_card - built files and script for packaging into image to flash onto SD card
+   |- u-boot-with-spl.sfp  - my preloader+uboot executable
+   |- make_image.py        - python scripts to make the bootable image
+   |- sd_call.sh           - shell script to run make_image.py with necessary arguments (you will need to generate rootfs directory)
+   |- sdfs                 - includes Linux binaries to be copied to your rootfs /boot directory
+       |- zImage                     - my compiled kernel image
+       |- socfpga_cyclone5_socdk.dtb - recompiled device tree with changes to register my platform driver
+       |- socfpga_cyclone5_socdk.dts - precompiled device tree with changes to register my platform driver (see dtc usage if you need to tweak)
+|-hw      - Quartus project and FPGA related development
+|-sw      - Software files not from other repos (eg linux-socfpga, u-boot-socfpga)
+
