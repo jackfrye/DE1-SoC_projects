@@ -11,4 +11,5 @@ This project provides steps and files for setting up access to the SDRAM on the 
        |- socfpga_cyclone5_socdk.dts - precompiled device tree with changes to register my platform driver (see dtc usage if you need to tweak)
 |-hw      - Quartus project and FPGA related development
 |-sw      - Software files not from other repos (eg linux-socfpga, u-boot-socfpga)
+  |- linux   - contains dmabuffer driver and applications. YOU WILL NEED TO CHANGE MAKEFILES TO CROSS COMPILE ON YOUR SYSTEM
 
