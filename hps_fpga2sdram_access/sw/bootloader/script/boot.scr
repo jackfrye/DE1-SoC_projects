@@ -12,10 +12,6 @@ setenv bootargs console=ttyS0,115200 debug ignore_loglevel earlyprintk=ttyS0,115
 ext4load mmc 0:2 0x2000000 /boot/hps_only.rbf
 fpga load 0 0x2000000 7007204
 
-# fpga-sdram bridge
-mw FFC25080 00000311
-mw FFC2505C 00000004
-
 # load kernel and DT
 ext4load mmc 0:2 ${kerneladdr} /boot/${bootimage}
 ext4load mmc 0:2 ${fdtaddr} /boot/${fdtimage}
@@ -25,19 +21,5 @@ ext4load mmc 0:2 ${fdtaddr} /boot/${fdtimage}
 bridge enable 0xffffffff
 
 # boot kernel
-#bootz ${kerneladdr} - ${fdtaddr}
+bootz ${kerneladdr} - ${fdtaddr}
 
-# test AXI programming
-# mw FF200000 000000ff
-
-# Write addresses to expander
-# mw FF220000 00000000
-# mw FF220004 00200000
-
-# dcache off
-# mw FF220000 00000000
-# mw FF220004 00100000
-# md FF210000 1
-# mw 00100000 deadbeef
-# dcache flush
-# md FF210000 1

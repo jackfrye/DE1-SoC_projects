@@ -1,1 +1,3 @@
-Work in progress
+Building Bootloader
+  - See https://rocketboards.org/foswiki/Documentation/BuildingBootloader
+  - My u-boot-socfgpa branch: origin/socfpga_v2020.07 (older branches will not create correct files to set up FPGA2SDRAM interface)
