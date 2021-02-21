@@ -1,5 +1,7 @@
 This project provides steps and files for setting up access to the SDRAM on the DE1-SOC via FPGA2SDRAM bridge via address span extender in FPGA. Linux driver and user space application is provided to set up access to the buffer directly from the processor using cache coherent memory.
 
+To boot from SD card on DE1-SoC, ensure the DIP switch is set to 5'b00000
+
 |- notes  - steps to rebuild larger executables from source in case you need to tinker/make changes
 |-sd_card - built files and script for packaging into image to flash onto SD card
    |- u-boot-with-spl.sfp  - my preloader+uboot executable

@@ -1,0 +1,5 @@
+This project creates a VGA signal for a 640x480 frame at 60FPS.
+
+To run DE1-SoC, ensure the DIP switch is set to 5'b10010, then programmed generated .sof from Quartus via USB blaster
+
+|-hw    - Archived Quartus project
