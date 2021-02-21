@@ -1,5 +1,6 @@
 Quartus Firmware
   - Version 2019.1 Lite Edition
+  - To update the firmware image loaded in uboot, use quartus_cpf to convert sof to rbf and copy rbf to rootfs /boot/ directory
 
 Building Bootloader: Cyclone V SoC - Boot from SD Card
   - See https://rocketboards.org/foswiki/Documentation/BuildingBootloader
