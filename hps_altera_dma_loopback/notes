@@ -1,0 +1,33 @@
+Quartus Firmware
+  - Version 2019.1 Lite Edition
+  - To update the firmware image loaded in uboot, use quartus_cpf to convert sof to rbf and copy rbf to rootfs /boot/ directory
+
+Building Bootloader: Cyclone V SoC - Boot from SD Card
+  - See https://rocketboards.org/foswiki/Documentation/BuildingBootloader
+  - My u-boot-socfgpa branch: origin/socfpga_v2020.07 (older branches will not create correct files to set up FPGA2SDRAM interface)
+  - Copy your u-boot-with-spl.sfp to ./sd_card/
+
+Building Linux: Building Linux Kernel
+  - See https://rocketboards.org/foswiki/Documentation/BuildingBootloader
+  - My linux-socfpga branch: origin/socfpga-5.4.44-lts
+  - I made a couple config changes to add USB camera support for my PS3 Eye in menuconfig (stay tuned for a future project)
+      |- Device Drivers->Multimedia support <Y>
+      |- Device Drivers->Multimedia support->Cameras/video grabbers support <Y>
+      |- Device Drivers->Multimedia support->Media USB Adapters <Y>
+      |- Device Drivers->Multimedia support->Media USB Adapters->UVC input events device support <Y>
+      |- Device Drivers->Multimedia support->Media USB Adapters->GSPCA based webcams->OV534 OV722x USB Camera Driver <Y>
+      |- Device Drivers->Multimedia support->Media USB Adapters->GSPCA based webcams->OV534 OV965x USB Camera Driver <Y>
+  - You can take the zImage and device tree blob. If you are using the dmabuffer driver, make sure to decompile the dtb add the node for
+    the platform probe and recompile before making the SD card image
+
+Building the Root Filesystem: Building Yocto Rootfs
+  - See https://rocketboards.org/foswiki/Documentation/BuildingBootloader
+  - In addition to listed steps in the guide, for SFTP and SSH support, at the bottom of <meta-altera-dir>/build/conf/local.conf, add 
+     |- IMAGE_INSTALL_append = " usbutils openssh-scp openssh-sftp-server openssh-ssh openssh"
+  - All other build steps are same as in guide (some steps below are duplicate)
+  - After build, under sd_card directory 
+      |- $: mkdir rootfs && cd rootfs
+      |- $: sudo tar xf <meta-altera-dir>/build/tmp/deploy/images/cyclone5/core-image-minimal-cyclone5.tar.gz .
+      |- $: sudo rm -rf lib/modules/*
+      |- $: sudo cp <linux-checkout-dir>/a9/modules/* ./lib/modules
+   - Now that sd_card/rootfs is setup, you are ready to run the sd_call.sh script

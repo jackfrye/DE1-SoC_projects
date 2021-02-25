@@ -1,0 +1,22 @@
+This project provides steps and files for performing a DMA transfer from an SDRAM buffer allocated by Linux to a RAM in the FPGA. The driver sets up the Linux buffer and performs the DMA transfer when ioctl is called. The user space application fills the buffer, calls the ioctl, then reads from the RAM one word at a time via the HPS2FPGA interface.
+
+To boot from SD card on DE1-SoC, ensure the DIP switch is set to 5'b00000
+
+|- notes  - steps to rebuild larger executables from source in case you need to tinker/make changes
+|-sd_card - built files and script for packaging into image to flash onto SD card
+   |- u-boot-with-spl.sfp  - my preloader+uboot executable
+   |- make_image.py        - python scripts to make the bootable image
+   |- sd_call.sh           - shell script to run make_image.py with necessary arguments (you will need to generate rootfs directory)
+   |- sdfs                 - includes Linux binaries to be copied to your rootfs /boot directory
+       |- zImage                     - my compiled kernel image
+       |- socfpga_cyclone5_socdk.dtb - recompiled device tree with changes to register my platform driver
+       |- socfpga_cyclone5_socdk.dts - precompiled device tree with changes to register my platform driver (see dtc usage if you need to tweak)
+|-hw      - Quartus project and FPGA related development
+|-sw      - Software files not from other repos (eg linux-socfpga, u-boot-socfpga)
+  |- linux      - contains driver and application. YOU WILL NEED TO CHANGE MAKEFILES TO CROSS COMPILE ON YOUR SYSTEM
+  |- bootloader - contains boot script (to be copied to /boot/ on rootfs) and embedded_command_shell handoff files
+        |- handoff - files created by embedded_command_shell (see https://rocketboards.org/foswiki/Documentation/BuildingBootloader)
+        |- script
+             |- boot.scr        - boot script text file
+             |- make_script.sh  - shell command to call mkimage to make the exectuable 
+             |- u-boot.scr      - binary to be copied to /boot
