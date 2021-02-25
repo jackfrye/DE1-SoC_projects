@@ -1,0 +1,23 @@
+setenv fdtimage socfpga_cyclone5_socdk.dtb
+setenv bootimage zImage
+setenv root /dev/mmcblk0p2
+
+setenv fpga 0
+setenv fdtaddr 0x1000
+setenv kerneladdr 0x200000
+setenv fpgadata 0x2000000
+setenv bootargs console=ttyS0,115200 debug ignore_loglevel earlyprintk=ttyS0,115200 break=y root=${root} rootwait rw ${bootargs_extra} ${runlevel}
+
+# load FPGA config
+ext4load mmc 0:2 0x2000000 /boot/hps_only.rbf
+fpga load 0 0x2000000 7007204
+
+# load kernel and DT
+ext4load mmc 0:2 ${kerneladdr} /boot/${bootimage}
+ext4load mmc 0:2 ${fdtaddr} /boot/${fdtimage}
+
+# setup bridges
+bridge enable 0xffffffff
+
+# boot kernel
+bootz ${kerneladdr} - ${fdtaddr}
